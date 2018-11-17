@@ -1,17 +1,22 @@
 import { Graphics, interaction } from "pixi.js";
 
-const { PI } = Math;
-const PI2 = PI * 2;
-const BEGIN = -PI / 2;
+const { sin, cos } = Math;
 
 export type ArcProps = {
+  radiusFrom: number;
+  radiusTo: number;
+  angleFrom: number;
+  angleTo: number;
+};
+
+export type ArcData = {
   ratio: number;
   color: number;
   payload: any;
 };
 
 export default class Arc extends Graphics {
-  props: ArcProps;
+  data: ArcData;
 
   constructor() {
     super();
@@ -19,18 +24,24 @@ export default class Arc extends Graphics {
     this.on("mouseover", this.onMouseOver);
   }
 
-  render(radius: number, fromRatio: number, props: ArcProps) {
-    this.props = props;
-    this.beginFill(props.color);
-    this.moveTo(0, 0);
-    this.arc(
-      0,
-      0,
-      radius,
-      BEGIN + PI2 * fromRatio,
-      BEGIN + PI2 * (fromRatio + props.ratio),
-    );
-    this.lineTo(0, 0);
+  render(
+    { radiusFrom, radiusTo, angleFrom, angleTo }: ArcProps,
+    data: ArcData,
+  ) {
+    this.data = data;
+    this.beginFill(data.color);
+    if (radiusFrom === 0) {
+      this.moveTo(0, 0);
+      this.arc(0, 0, radiusTo, angleFrom, angleTo);
+    } else {
+      const fromX = radiusTo * cos(angleFrom);
+      const fromY = radiusTo * sin(angleFrom);
+      this.moveTo(fromX, fromY);
+      this.arc(0, 0, radiusTo, angleFrom, angleTo);
+      this.lineTo(radiusFrom * cos(angleTo), radiusFrom * sin(angleTo));
+      this.arc(0, 0, radiusFrom, angleTo, angleFrom, true);
+      this.lineTo(fromX, fromY);
+    }
     this.endFill();
   }
 
@@ -38,7 +49,7 @@ export default class Arc extends Graphics {
     this.emit("TOOLTIP_START", {
       cursorX: e.data.global.x,
       cursorY: e.data.global.y,
-      props: this.props,
+      data: this.data,
     });
     this.off("mouseover", this.onMouseOver);
     this.on("mousemove", this.onMouseMove);
@@ -49,7 +60,7 @@ export default class Arc extends Graphics {
     this.emit("TOOLTIP_MOVE", {
       cursorX: e.data.global.x,
       cursorY: e.data.global.y,
-      props: this.props,
+      data: this.data,
     });
   };
 
@@ -57,7 +68,7 @@ export default class Arc extends Graphics {
     this.emit("TOOLTIP_END", {
       cursorX: e.data.global.x,
       cursorY: e.data.global.y,
-      props: this.props,
+      data: this.data,
     });
     this.on("mouseover", this.onMouseOver);
     this.off("mousemove", this.onMouseMove);

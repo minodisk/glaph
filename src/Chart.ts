@@ -1,7 +1,7 @@
 import { Application } from "pixi.js";
 import Tooltip, { TooltipRenderer } from "./tooltip/Tooltip";
 import { TooltipEvent } from "./tooltip/TooltipEvent";
-import Pie, { PieProps } from "./pie/Pie";
+import Pie, { PieData } from "./pie/Pie";
 
 export default class Chart {
   element: HTMLDivElement;
@@ -17,8 +17,6 @@ export default class Chart {
     height: number | string = "100%",
   ) {
     this.app = new Application({
-      // width: 100,
-      // height: 100,
       antialias: true,
       // transparent: true,
     });
@@ -52,8 +50,8 @@ export default class Chart {
     this.app.stage.addChild(this.entity);
   }
 
-  render(props: PieProps) {
-    this.entity.render(props);
+  render(data: PieData) {
+    this.entity.render(data);
   }
 
   resize(width: number, height: number) {
@@ -92,7 +90,7 @@ export default class Chart {
   };
 
   onTooltipStart = (e: TooltipEvent) => {
-    console.log("onTooltipStart");
+    console.log("onTooltipStart", e);
     this.tooltip.moveTo(
       e.cursorX,
       e.cursorY,
@@ -103,8 +101,8 @@ export default class Chart {
   };
 
   onTooltipMove = (e: TooltipEvent) => {
-    console.log("onTooltipMove");
-    this.tooltip.render(e.props);
+    console.log("onTooltipMove", e);
+    this.tooltip.render(e.data);
     this.tooltip.moveTo(
       e.cursorX,
       e.cursorY,
@@ -114,7 +112,7 @@ export default class Chart {
   };
 
   onTooltipEnd = (e: TooltipEvent) => {
-    console.log("onTooltipEnd");
+    console.log("onTooltipEnd", e);
     this.tooltip.moveTo(
       e.cursorX,
       e.cursorY,
