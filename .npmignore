@@ -1,0 +1,10 @@
+.cache/
+.git/
+.gitignore
+.storybook/
+node_modules/
+src/
+stories/
+tsconfig.json
+webpack.config.js
+*.log

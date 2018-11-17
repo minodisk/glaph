@@ -1,0 +1,32 @@
+{
+  "name": "glaph",
+  "version": "0.0.0",
+  "description": "Chart with WebGL",
+  "main": "lib/glaph.js",
+  "repository": "git@github.com:minodisk/glaph.git",
+  "author": "Daisuke Minot <daisuke.mino@gmail.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "pixi.js": "^4.8.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@storybook/html": "^4.0.7",
+    "@types/jest": "^23.3.9",
+    "@types/node": "^10.12.9",
+    "@types/pixi.js": "^4.8.3",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.0.4",
+    "jest": "^23.6.0",
+    "ts-jest": "^23.10.4",
+    "ts-loader": "^5.3.0",
+    "typescript": "^3.1.6",
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2"
+  },
+  "scripts": {
+    "build": "webpack",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  }
+}
