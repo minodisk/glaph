@@ -72,7 +72,7 @@ export default class Pie extends Container {
       arc.on("TOOLTIP_START", this.onTooltipStart);
       arc.on("TOOLTIP_MOVE", this.onTooltipMove);
       arc.on("TOOLTIP_END", this.onTooltipEnd);
-      this.addChild(arc);
+      this.addChildAt(arc, 0);
       return angleRatioTo;
     }, 0);
   }
@@ -89,6 +89,7 @@ export default class Pie extends Container {
   };
 
   onMouseOver = (e: interaction.InteractionEvent) => {
+    console.log("onMouseOver");
     this.emit("TOOLTIP_START", {
       cursorX: e.data.global.x,
       cursorY: e.data.global.y,
@@ -97,6 +98,7 @@ export default class Pie extends Container {
   };
 
   onMouseOut = (e: interaction.InteractionEvent) => {
+    console.log("onMouseOut");
     this.emit("TOOLTIP_END", {
       cursorX: e.data.global.x,
       cursorY: e.data.global.y,

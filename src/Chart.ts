@@ -1,13 +1,12 @@
 import { Application } from "pixi.js";
 import Tooltip, { TooltipRenderer } from "./tooltip/Tooltip";
 import { TooltipEvent } from "./tooltip/TooltipEvent";
-import Pie, { PieData } from "./pie/Pie";
+import Pie from "./pie/Pie";
 
 export default class Chart {
   element: HTMLDivElement;
   stage: HTMLDivElement;
   app: Application;
-  entity: Pie;
   tooltip: Tooltip;
   tooltipRenderer: TooltipRenderer;
   obs: any;
@@ -42,16 +41,11 @@ export default class Chart {
     this.element.addEventListener("DOMNodeInsertedIntoDocument", this.onAppend);
   }
 
-  addChart(entity: Pie) {
-    this.entity = entity;
-    this.entity.on("TOOLTIP_START", this.onTooltipStart);
-    this.entity.on("TOOLTIP_MOVE", this.onTooltipMove);
-    this.entity.on("TOOLTIP_END", this.onTooltipEnd);
-    this.app.stage.addChild(this.entity);
-  }
-
-  render(data: PieData) {
-    this.entity.render(data);
+  addChart(body: Pie) {
+    body.on("TOOLTIP_START", this.onTooltipStart);
+    body.on("TOOLTIP_MOVE", this.onTooltipMove);
+    body.on("TOOLTIP_END", this.onTooltipEnd);
+    this.app.stage.addChild(body);
   }
 
   resize(width: number, height: number) {
