@@ -5,6 +5,7 @@
 node_modules/
 src/
 stories/
+storybook-static/
 tsconfig.json
 webpack.config.js
 *.log

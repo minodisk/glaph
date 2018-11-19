@@ -1,0 +1,80 @@
+version: 2.1
+
+jobs:
+
+  ready:
+    docker:
+      - image: circleci/node:10.13
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "yarn.lock" }}
+            - v1-dependencies-
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  build:
+    docker:
+      - image: circleci/node:10.13
+    working_directory: ~/repo
+    steps:
+      - attach_workspace:
+          at: .
+      - run: yarn build
+      - run: yarn storybook:build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  test:
+    docker:
+      - image: circleci/node:10.13
+    working_directory: ~/repo
+    steps:
+      - attach_workspace:
+          at: .
+      - run: yarn test
+
+  deploy-storybook:
+    docker:
+      - image: circleci/node:10.13
+    working_directory: ~/repo
+    steps:
+      - attach_workspace:
+          at: .
+      - run: |
+          cd storybook-static
+          git init
+          git config user.name "GH Pages Bot"
+          git config user.email "gh-pages@github.com"
+          git add .
+          git commit --allow-empty -m "Deploy Storybook to GitHub Pages [ci skip]"
+          git push -fq https://${GH_TOKEN}@github.com/minodisk/glaph.git master:gh-pages
+
+workflows:
+  version: 2.1
+  build-test-deploy:
+    jobs:
+      - ready
+      - build:
+          requires:
+            - ready
+      - test:
+          requires:
+            - ready
+      - deploy-storybook:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master

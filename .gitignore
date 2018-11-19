@@ -65,3 +65,6 @@ typings/
 
 # Distribution
 lib/
+
+# Storybook
+storybook-static/
