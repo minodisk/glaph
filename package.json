@@ -18,11 +18,16 @@
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.4",
     "jest": "^23.6.0",
+    "reg-keygen-git-hash-plugin": "^0.7.16",
+    "reg-notify-github-plugin": "^0.7.16",
+    "reg-publish-gcs-plugin": "^0.7.16",
+    "reg-suit": "^0.7.17",
     "ts-jest": "^23.10.4",
     "ts-loader": "^5.3.0",
     "typescript": "^3.1.6",
     "webpack": "^4.25.1",
-    "webpack-cli": "^3.1.2"
+    "webpack-cli": "^3.1.2",
+    "zisui": "^1.2.2"
   },
   "scripts": {
     "build": "webpack",
@@ -30,6 +35,8 @@
     "storybook": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
     "storybook:deploy": "storybook-to-ghpages",
-    "storybook:deploy:ci": "yarn storybook:deploy --ci"
+    "storybook:deploy:ci": "yarn storybook:deploy --ci",
+    "screenshot": "rm -rf __screenshots__ && ZISUI_SHOW='enabled' zisui --serverCmd \"start-storybook --ci -p 9001\" --serverTimeout 100000 --captureMaxRetryCount 8 --verbose http://localhost:9001",
+    "regression": "reg-suit run --debug"
   }
 }

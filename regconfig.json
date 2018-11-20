@@ -1,0 +1,23 @@
+{
+  "core": {
+    "workingDir": ".reg",
+    "actualDir": "__screenshots__",
+    "thresholdRate": 0,
+    "threshold": 0,
+    "addIgnore": true,
+    "thresholdPixel": 50,
+    "ximgdiff": {
+      "invocationType": "client"
+    }
+  },
+  "plugins": {
+    "reg-keygen-git-hash-plugin": {},
+    "reg-publish-gcs-plugin": {
+      "bucketName": "glaph-visual-regression",
+      "pathPrefix": "artifacts"
+    },
+    "reg-notify-github-plugin": {
+      "clientId": "MzQ1tzQzsLQ00E/PSSzI0DcxMzU2MtbPzczLT8kszgYA"
+    }
+  }
+}

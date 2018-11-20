@@ -1,23 +1,18 @@
-*.log
 *.iml
+*.log
 
 .cache/
 .circleci/
 .git/
 .idea/
 .reg/
-.storybook/
 __screenshots__/
+lib/
 node_modules/
-src/
 storybook-static/
 
 .dockerignore
 .gitignore
 .npmignore
 Dockerfile
-regconfig.json
-tsconfig.json
-webpack.config.js
-yarn.lock
-
+glaph.iml

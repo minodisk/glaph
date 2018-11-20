@@ -30,7 +30,6 @@ jobs:
       - attach_workspace:
           at: .
       - run: yarn build
-      - run: yarn storybook:build
       - persist_to_workspace:
           root: .
           paths:
@@ -45,6 +44,18 @@ jobs:
           at: .
       - run: yarn test
 
+  regression:
+    docker:
+      - image: circleci/node:10.13-browsers
+    working_directory: ~/repo
+    steps:
+      - attach_workspace:
+          at: .
+      - run: mkdir -p $(dirname $GOOGLE_APPLICATION_CREDENTIALS)
+      - run: echo $ENCODED_GOOGLE_APPLICATION_CREDENTIALS | base64 --decode > $GOOGLE_APPLICATION_CREDENTIALS
+      - run: yarn screenshot
+      - run: yarn regression
+
   deploy-storybook:
     docker:
       - image: circleci/node:10.13
@@ -52,6 +63,7 @@ jobs:
     steps:
       - attach_workspace:
           at: .
+      - run: yarn storybook:build
       - run: |
           cd storybook-static
           git init
@@ -72,9 +84,12 @@ workflows:
       - test:
           requires:
             - ready
+      - regression:
+          requires:
+            - ready
       - deploy-storybook:
           requires:
-            - build
+            - ready
           filters:
             branches:
               only: master
