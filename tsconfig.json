@@ -8,7 +8,10 @@
     "allowJs": false,
     "moduleResolution": "node",
     "rootDirs": ["src", "stories"],
-    "baseUrl": "src",
+    "baseUrl": ".",
+    "paths": {
+      "@storybook/html": ["./definitions/storybook__html"]
+    },
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,

@@ -1,5 +1,5 @@
-export type TooltipEvent = {
-  cursorX: number;
-  cursorY: number;
-  data: any;
-};
+export interface TooltipEvent {
+  cursorX: number
+  cursorY: number
+  data: any
+}
