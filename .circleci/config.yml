@@ -104,13 +104,16 @@ workflows:
             - ready
       - test:
           requires:
-          - ready
+            - ready
       - build:
           requires:
             - ready
       - regression:
           requires:
             - ready
+          filters:
+            branches:
+              ignore: master
       - deploy-storybook:
           requires:
             - ready
