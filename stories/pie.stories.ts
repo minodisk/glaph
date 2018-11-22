@@ -168,14 +168,14 @@ storiesOf("PieChart", module)
   .add("double dounuts", () => {
     const chart = new Chart(600, 400);
     const pie1 = new Pie({
-      radiusRatioFrom: 0.5,
-      radiusRatioTo: 1,
+    radiusRatioFrom: 0,
+    radiusRatioTo: 0.5,
     });
     pie1.render(data1);
     chart.addChart(pie1);
     const pie2 = new Pie({
-      radiusRatioFrom: 0,
-      radiusRatioTo: 0.5,
+        radiusRatioFrom: 0.5,
+        radiusRatioTo: 1,
     });
     pie2.render(data2);
     chart.addChart(pie2);

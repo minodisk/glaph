@@ -21,7 +21,7 @@ export default class Pie extends Container {
     radiusRatioFrom = 0,
     radiusRatioTo = 1,
     angleFrom = -PI * 0.5,
-    angleTo = PI * 1.5,
+    angleTo = PI * 1.5
   }: {
     radiusRatioFrom?: number;
     radiusRatioTo?: number;
@@ -33,7 +33,7 @@ export default class Pie extends Container {
       radiusRatioFrom: radiusRatioFrom,
       radiusRatioTo: radiusRatioTo,
       angleFrom: angleFrom,
-      angleVolume: angleTo - angleFrom,
+      angleVolume: angleTo - angleFrom
     };
     this.interactive = true;
     this.on("added", this.onAdded);
@@ -53,7 +53,7 @@ export default class Pie extends Container {
       radiusRatioFrom,
       radiusRatioTo,
       angleFrom,
-      angleVolume,
+      angleVolume
     } = this.props;
 
     this.removeChildren();
@@ -65,9 +65,9 @@ export default class Pie extends Container {
           radiusFrom: this.radius * radiusRatioFrom,
           radiusTo: this.radius * radiusRatioTo,
           angleFrom: angleFrom + angleVolume * angleRatioFrom,
-          angleTo: angleFrom + angleVolume * angleRatioTo,
+          angleTo: angleFrom + angleVolume * angleRatioTo
         },
-        d,
+        d
       );
       arc.on("TOOLTIP_START", this.onTooltipStart);
       arc.on("TOOLTIP_MOVE", this.onTooltipMove);
@@ -93,7 +93,7 @@ export default class Pie extends Container {
     this.emit("TOOLTIP_START", {
       cursorX: e.data.global.x,
       cursorY: e.data.global.y,
-      data: this.data,
+      data: this.data
     });
   };
 
@@ -102,7 +102,7 @@ export default class Pie extends Container {
     this.emit("TOOLTIP_END", {
       cursorX: e.data.global.x,
       cursorY: e.data.global.y,
-      data: this.data,
+      data: this.data
     });
   };
 

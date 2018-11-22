@@ -81,7 +81,7 @@ export default class Tooltip {
     cursorX: number,
     cursorY: number,
     stageWidth: number,
-    stageHeight: number,
+    stageHeight: number
   ) {
     const orthantX = cursorX - stageWidth / 2;
     const orthantY = cursorY - stageHeight / 2;
