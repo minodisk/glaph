@@ -1,64 +1,64 @@
-import { utils } from "pixi.js";
-import { translatePx, translatePer } from "../utils/style";
+import { utils } from 'pixi.js'
+import { translatePer, translatePx } from '../utils/style'
 
-export type TooltipRenderer = (chunk: { [key: string]: any }) => HTMLElement;
+export type TooltipRenderer = (chunk: { [key: string]: any }) => HTMLElement
 
 export default class Tooltip {
-  element: HTMLDivElement;
+  public element: HTMLDivElement
 
   constructor(renderer?: TooltipRenderer) {
     if (renderer) {
-      this.renderer = renderer;
+      this.renderer = renderer
     }
 
-    this.element = document.createElement("div");
-    this.element.style.userSelect = "none";
-    this.element.style.pointerEvents = "none";
-    this.element.style.position = "absolute";
-    this.element.style.top = "0";
-    this.element.style.left = "0";
-    this.element.style.transitionDuration = "0.15s";
-    this.element.style.transitionProperty = "transform";
-    this.element.style.transitionTimingFunction = "ease-out";
+    this.element = document.createElement('div')
+    this.element.style.userSelect = 'none'
+    this.element.style.pointerEvents = 'none'
+    this.element.style.position = 'absolute'
+    this.element.style.top = '0'
+    this.element.style.left = '0'
+    this.element.style.transitionDuration = '0.15s'
+    this.element.style.transitionProperty = 'transform'
+    this.element.style.transitionTimingFunction = 'ease-out'
 
-    this.hide();
+    this.hide()
   }
 
-  show() {
-    this.element.style.display = "block";
+  public show() {
+    this.element.style.display = 'block'
   }
 
-  hide() {
-    this.element.style.display = "none";
+  public hide() {
+    this.element.style.display = 'none'
   }
 
-  render(chunk: { [key: string]: any }) {
+  public render(chunk: { [key: string]: any }) {
     while (this.element.firstChild) {
-      this.element.removeChild(this.element.firstChild);
+      this.element.removeChild(this.element.firstChild)
     }
-    this.element.appendChild(this.renderer(chunk));
+    this.element.appendChild(this.renderer(chunk))
   }
 
-  renderer({ color, payload }: { [key: string]: any }): HTMLElement {
-    const box = document.createElement("div");
-    box.style.backgroundColor = "white";
-    box.style.border = `1px solid ${utils.hex2string(color)}`;
-    box.style.borderRadius = "2px";
-    box.style.padding = "16px";
-    box.style.fontSize = "13px";
-    const list = document.createElement("ul");
-    list.style.margin = "0px";
-    list.style.paddingLeft = "28px";
+  public renderer({ color, payload }: { [key: string]: any }): HTMLElement {
+    const box = document.createElement('div')
+    box.style.backgroundColor = 'white'
+    box.style.border = `1px solid ${utils.hex2string(color)}`
+    box.style.borderRadius = '2px'
+    box.style.padding = '16px'
+    box.style.fontSize = '13px'
+    const list = document.createElement('ul')
+    list.style.margin = '0px'
+    list.style.paddingLeft = '28px'
     Object.keys(payload)
       .sort()
       .forEach(key => {
-        const value = payload[key];
-        const item = document.createElement("li");
-        item.textContent = `${key}: ${value}`;
-        list.appendChild(item);
-      });
-    box.appendChild(list);
-    return box;
+        const value = payload[key]
+        const item = document.createElement('li')
+        item.textContent = `${key}: ${value}`
+        list.appendChild(item)
+      })
+    box.appendChild(list)
+    return box
   }
 
   /**
@@ -77,33 +77,33 @@ export default class Tooltip {
    *       v
    *       y
    */
-  moveTo(
+  public moveTo(
     cursorX: number,
     cursorY: number,
     stageWidth: number,
     stageHeight: number
   ) {
-    const orthantX = cursorX - stageWidth / 2;
-    const orthantY = cursorY - stageHeight / 2;
+    const orthantX = cursorX - stageWidth / 2
+    const orthantY = cursorY - stageHeight / 2
     if (orthantY < 0) {
       if (orthantX > 0) {
         // Ortahnt 1
         this.element.style.transform =
-          translatePer(-100, 0) + translatePx(cursorX - 20, cursorY + 20);
+          translatePer(-100, 0) + translatePx(cursorX - 20, cursorY + 20)
       } else {
         // Ortahnt 2
         this.element.style.transform =
-          translatePer(0, 0) + translatePx(cursorX + 20, cursorY + 20);
+          translatePer(0, 0) + translatePx(cursorX + 20, cursorY + 20)
       }
     } else {
       if (orthantX < 0) {
         // Orthnat 3
         this.element.style.transform =
-          translatePer(0, -100) + translatePx(cursorX + 20, cursorY - 20);
+          translatePer(0, -100) + translatePx(cursorX + 20, cursorY - 20)
       } else {
         // Orthant 4
         this.element.style.transform =
-          translatePer(-100, -100) + translatePx(cursorX - 20, cursorY - 20);
+          translatePer(-100, -100) + translatePx(cursorX - 20, cursorY - 20)
       }
     }
   }
