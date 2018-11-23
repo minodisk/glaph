@@ -154,29 +154,41 @@ storiesOf('PieChart', module)
     chart.addChart(pie)
     return chart.element
   })
-  .add('dounuts', () => {
+  .add('donuts', () => {
     const chart = new Chart(600, 400)
     const pie = new Pie({
-      radiusRatioFrom: 0.6,
-      radiusRatioTo: 1
+      innerRadiusRatio: 0.6,
+      outerRadiusRatio: 1
     })
     pie.render(data1)
     chart.addChart(pie)
     return chart.element
   })
-  .add('double dounuts', () => {
+  .add('double donuts', () => {
     const chart = new Chart(600, 400)
     const pie1 = new Pie({
-      radiusRatioFrom: 0,
-      radiusRatioTo: 0.5
+      innerRadiusRatio: 0,
+      outerRadiusRatio: 0.5
     })
     pie1.render(data1)
     chart.addChart(pie1)
     const pie2 = new Pie({
-      radiusRatioFrom: 0.5,
-      radiusRatioTo: 1
+      innerRadiusRatio: 0.5,
+      outerRadiusRatio: 1
     })
     pie2.render(data2)
     chart.addChart(pie2)
+    return chart.element
+  })
+  .add('half donuts', () => {
+    const chart = new Chart(600, 400)
+    const pie = new Pie({
+      innerRadiusRatio: 0.6,
+      outerRadiusRatio: 1,
+      startAngle: -Math.PI,
+      endAngle: 0
+    })
+    pie.render(data1)
+    chart.addChart(pie)
     return chart.element
   })

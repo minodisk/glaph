@@ -4,10 +4,10 @@ import Arc, { ArcData } from './Arc'
 const { PI } = Math
 
 export interface PieProps {
-  radiusRatioFrom: number
-  radiusRatioTo: number
-  angleFrom: number
-  angleVolume: number
+  innerRadiusRatio: number
+  outerRadiusRatio: number
+  startAngle: number
+  endAngle: number
 }
 export type PieData = ArcData[]
 
@@ -17,22 +17,22 @@ export default class Pie extends Container {
   public data: PieData
 
   constructor({
-    radiusRatioFrom = 0,
-    radiusRatioTo = 1,
-    angleFrom = -PI * 0.5,
-    angleTo = PI * 1.5
+    innerRadiusRatio = 0,
+    outerRadiusRatio = 1,
+    startAngle = -PI * 0.5,
+    endAngle = PI * 1.5
   }: {
-    radiusRatioFrom?: number
-    radiusRatioTo?: number
-    angleFrom?: number
-    angleTo?: number
+    innerRadiusRatio?: number
+    outerRadiusRatio?: number
+    startAngle?: number
+    endAngle?: number
   } = {}) {
     super()
     this.props = {
-      radiusRatioFrom,
-      radiusRatioTo,
-      angleFrom,
-      angleVolume: angleTo - angleFrom
+      innerRadiusRatio,
+      outerRadiusRatio,
+      startAngle,
+      endAngle: endAngle - startAngle
     }
     this.interactive = true
     this.on('added', this.onAdded)
@@ -49,10 +49,10 @@ export default class Pie extends Container {
     }
 
     const {
-      radiusRatioFrom,
-      radiusRatioTo,
-      angleFrom,
-      angleVolume
+      innerRadiusRatio,
+      outerRadiusRatio,
+      startAngle,
+      endAngle
     } = this.props
 
     this.removeChildren()
@@ -61,10 +61,10 @@ export default class Pie extends Container {
       const arc = new Arc()
       arc.render(
         {
-          radiusFrom: this.radius * radiusRatioFrom,
-          radiusTo: this.radius * radiusRatioTo,
-          angleFrom: angleFrom + angleVolume * angleRatioFrom,
-          angleTo: angleFrom + angleVolume * angleRatioTo
+          innerRadius: this.radius * innerRadiusRatio,
+          outerRadius: this.radius * outerRadiusRatio,
+          startAngle: startAngle + endAngle * angleRatioFrom,
+          endAngle: startAngle + endAngle * angleRatioTo
         },
         d
       )
