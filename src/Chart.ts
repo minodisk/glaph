@@ -17,7 +17,8 @@ export default class Chart {
   ) {
     this.app = new Application({
       antialias: true,
-      transparent: true
+      transparent: true,
+      resolution: window.devicePixelRatio
     })
     this.app.renderer.autoResize = true
     this.app.view.style.position = 'absolute'

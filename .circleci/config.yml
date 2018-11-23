@@ -111,9 +111,6 @@ workflows:
       - regression:
           requires:
             - ready
-          filters:
-            branches:
-              ignore: master
       - deploy-storybook:
           requires:
             - ready
