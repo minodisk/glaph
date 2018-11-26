@@ -1,8 +1,9 @@
-# glaph [![CircleCI master][build]](https://circleci.com/gh/minodisk/workflows/glaph/tree/master) [![License][license]](./LICENSE) [![npm version][npm]](https://www.npmjs.com/package/glaph) [![npm type definitions][types]](https://www.typescriptlang.org/) [![Storybook][storybook]](https://minodisk.github.io/glaph/)
+# glaph [![CircleCI master][build]](https://circleci.com/gh/minodisk/workflows/glaph/tree/master) [![Codecov][coverage]](https://codecov.io/gh/minodisk/glaph) [![npm version][npm]](https://www.npmjs.com/package/glaph) [![npm type definitions][types]](https://www.typescriptlang.org/) [![License][license]](./LICENSE) [![Storybook][storybook]](https://minodisk.github.io/glaph/)
 
 Chart with WebGL
 
 [build]: https://img.shields.io/circleci/project/github/minodisk/glaph/master.svg?style=flat-square
+[coverage]: https://img.shields.io/codecov/c/github/minodisk/glaph.svg?style=flat-square
 [license]: https://img.shields.io/github/license/minodisk/glaph.svg?style=flat-square
 [npm]: https://img.shields.io/npm/v/glaph.svg?style=flat-square
 [types]: https://img.shields.io/npm/types/glaph.svg?style=flat-square
