@@ -22,6 +22,7 @@
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
     "babel-plugin-require-context-hook": "^1.0.0",
+    "codecov": "^3.1.0",
     "jest": "^23.6.0",
     "jest-canvas-mock": "^1.1.0",
     "node-glob": "^1.2.0",
