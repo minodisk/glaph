@@ -10,7 +10,13 @@
     "rootDirs": ["src", "stories"],
     "baseUrl": ".",
     "paths": {
-      "@storybook/html": ["./definitions/storybook__html"]
+      "@storybook/addon-storyshots": [
+        "./definitions/storybook__addon-storyshots"
+      ],
+      "@storybook/html": ["./definitions/storybook__html"],
+      "babel-plugin-require-context-hook/register": [
+        "./definitions/babel-plugin-require-context-hook__register"
+      ]
     },
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,

@@ -6,7 +6,9 @@
 .git/
 .idea/
 .reg/
+.storybook/__snapshots__/
 __screenshots__/
+coverage/
 lib/
 node_modules/
 storybook-static/

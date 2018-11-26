@@ -1,5 +1,5 @@
 import { storiesOf } from '@storybook/html'
-import { Chart, Pie } from '../src/index'
+import { Chart, Pie } from '..'
 
 const data1 = [
   {
