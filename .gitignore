@@ -6,7 +6,7 @@
 .git/
 .idea/
 .reg/
-.storybook/
+.storybook/__snapshots__/
 __screenshots__/
 coverage/
 lib/

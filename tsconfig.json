@@ -11,7 +11,8 @@
     "baseUrl": ".",
     "paths": {
       "@storybook/addon-storyshots": ["./definitions/storybook__addon-storyshots"],
-      "@storybook/html": ["./definitions/storybook__html"]
+      "@storybook/html": ["./definitions/storybook__html"],
+      "babel-plugin-require-context-hook/register": ["./definitions/babel-plugin-require-context-hook__register"]
     },
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
