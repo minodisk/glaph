@@ -8,6 +8,7 @@
 .reg/
 .storybook/
 __screenshots__/
+coverage/
 node_modules/
 src/
 storybook-static/

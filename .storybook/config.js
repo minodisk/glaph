@@ -1,9 +1,8 @@
-import { configure } from "@storybook/html";
+const { configure } = require( "@storybook/html");
 
-// automatically import all files ending in *.stories.ts
-const req = require.context("../stories", true, /.stories.ts$/);
-function loadStories() {
-  req.keys().forEach(filename => req(filename));
-}
+console.log(require)
+const req = require.context('../stories', true, /\.stories\.ts$/)
 
-configure(loadStories, module);
+configure(() => {
+  req.keys().forEach(filename => req(filename))
+}, module);

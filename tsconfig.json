@@ -10,6 +10,7 @@
     "rootDirs": ["src", "stories"],
     "baseUrl": ".",
     "paths": {
+      "@storybook/addon-storyshots": ["./definitions/storybook__addon-storyshots"],
       "@storybook/html": ["./definitions/storybook__html"]
     },
     "forceConsistentCasingInFileNames": true,
