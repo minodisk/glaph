@@ -1,8 +1,4 @@
 {
-  "presets": [
-    "@babel/preset-env"
-  ],
-  "plugins": [
-    "require-context-hook"
-  ]
+  "presets": ["@babel/preset-env"],
+  "plugins": ["require-context-hook"]
 }
