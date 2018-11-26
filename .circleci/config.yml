@@ -38,7 +38,7 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - run: yarn prettier:list
+      - run: yarn format:list
 
   build:
     docker:

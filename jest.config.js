@@ -21,9 +21,7 @@ module.exports = {
   // collectCoverage: false,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
-  collectCoverageFrom: [
-    'src/**.ts'
-  ],
+  collectCoverageFrom: ['src/**.ts'],
 
   // The directory where Jest should output its coverage files
   coverageDirectory: 'coverage',
@@ -117,10 +115,7 @@ module.exports = {
   // runner: "jest-runner",
 
   // The paths to modules that run some code to configure or set up the testing environment before each test
-  setupFiles: [
-    './.jest/register-context.ts',
-    'jest-canvas-mock'
-  ],
+  setupFiles: ['./.jest/register-context.ts', 'jest-canvas-mock'],
 
   // The path to a module that runs some code to configure or set up the testing framework before each test
   // setupTestFrameworkScriptFile: null,
@@ -144,10 +139,7 @@ module.exports = {
   ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-  testPathIgnorePatterns: [
-    '<rootDir>/node_modules/',
-    '<rootDir>/lib'
-  ],
+  testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/lib'],
 
   // The regexp pattern Jest uses to detect test files
   // testRegex: "",
