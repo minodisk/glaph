@@ -6,6 +6,8 @@ import { TooltipEvent } from './tooltip/TooltipEvent'
 export default class Chart {
   public element: HTMLDivElement
   public stage: HTMLDivElement
+  public stageWidth: number
+  public stageHeight: number
   public app: Application
   public tooltip: Tooltip
   public tooltipRenderer: TooltipRenderer
@@ -50,6 +52,8 @@ export default class Chart {
   }
 
   public resize(width: number, height: number) {
+    this.stageWidth = width
+    this.stageHeight = height
     this.app.renderer.resize(width, height)
     this.app.stage.children.forEach(child =>
       child.emit('STAGE_RESIZE', { width, height }),
@@ -87,32 +91,17 @@ export default class Chart {
   }
 
   public onTooltipStart = (e: TooltipEvent) => {
-    this.tooltip.moveTo(
-      e.cursorX,
-      e.cursorY,
-      this.app.renderer.width,
-      this.app.renderer.height,
-    )
+    this.tooltip.moveTo(e.cursorX, e.cursorY, this.stageWidth, this.stageHeight)
     this.tooltip.show()
   }
 
   public onTooltipMove = (e: TooltipEvent) => {
     this.tooltip.render(e.data)
-    this.tooltip.moveTo(
-      e.cursorX,
-      e.cursorY,
-      this.app.renderer.width,
-      this.app.renderer.height,
-    )
+    this.tooltip.moveTo(e.cursorX, e.cursorY, this.stageWidth, this.stageHeight)
   }
 
   public onTooltipEnd = (e: TooltipEvent) => {
-    this.tooltip.moveTo(
-      e.cursorX,
-      e.cursorY,
-      this.app.renderer.width,
-      this.app.renderer.height,
-    )
+    this.tooltip.moveTo(e.cursorX, e.cursorY, this.stageWidth, this.stageHeight)
     this.tooltip.hide()
   }
 }
