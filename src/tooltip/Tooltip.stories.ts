@@ -1,4 +1,5 @@
 import { storiesOf } from '@storybook/html'
+<<<<<<< HEAD
 import { Application, Graphics, utils } from 'pixi.js'
 import { blue, red } from '../__fixtures__/colors'
 import Tooltip from './Tooltip'
