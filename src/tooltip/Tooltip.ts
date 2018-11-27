@@ -1,7 +1,12 @@
 import { utils } from 'pixi.js'
 import { translatePer, translatePx } from '../utils/style'
 
-export type TooltipRenderer = (chunk: { [key: string]: any }) => HTMLElement
+export interface TooltipProps {
+  color: number
+  payload: { [key: string]: any }
+}
+
+export type TooltipRenderer = (props: TooltipProps) => HTMLElement
 
 export default class Tooltip {
   public element: HTMLDivElement
@@ -32,14 +37,14 @@ export default class Tooltip {
     this.element.style.display = 'none'
   }
 
-  public render(chunk: { [key: string]: any }) {
+  public render(props: TooltipProps) {
     while (this.element.firstChild) {
       this.element.removeChild(this.element.firstChild)
     }
-    this.element.appendChild(this.renderer(chunk))
+    this.element.appendChild(this.renderer(props))
   }
 
-  public renderer({ color, payload }: { [key: string]: any }): HTMLElement {
+  public renderer({ color, payload }: TooltipProps): HTMLElement {
     const box = document.createElement('div')
     box.style.backgroundColor = 'white'
     box.style.border = `1px solid ${utils.hex2string(color)}`
@@ -68,11 +73,11 @@ export default class Tooltip {
    * Orthant:
    *
    *       |
-   *    2  |  1
+   *    3  |  4
    *       |
    *  -----+----->x
    *       |
-   *    3  |  4
+   *    2  |  1
    *       |
    *       v
    *       y
@@ -81,29 +86,29 @@ export default class Tooltip {
     cursorX: number,
     cursorY: number,
     stageWidth: number,
-    stageHeight: number
+    stageHeight: number,
   ) {
     const orthantX = cursorX - stageWidth / 2
     const orthantY = cursorY - stageHeight / 2
-    if (orthantY < 0) {
+    if (orthantY > 0) {
       if (orthantX > 0) {
-        // Ortahnt 1
+        // Orthant 1
         this.element.style.transform =
-          translatePer(-100, 0) + translatePx(cursorX - 20, cursorY + 20)
+          translatePer(-100, -100) + translatePx(cursorX - 20, cursorY - 20)
       } else {
-        // Ortahnt 2
+        // Orthnat 2
         this.element.style.transform =
-          translatePer(0, 0) + translatePx(cursorX + 20, cursorY + 20)
+          translatePer(0, -100) + translatePx(cursorX + 20, cursorY - 20)
       }
     } else {
       if (orthantX < 0) {
-        // Orthnat 3
+        // Ortahnt 3
         this.element.style.transform =
-          translatePer(0, -100) + translatePx(cursorX + 20, cursorY - 20)
+          translatePer(0, 0) + translatePx(cursorX + 20, cursorY + 20)
       } else {
-        // Orthant 4
+        // Ortahnt 4
         this.element.style.transform =
-          translatePer(-100, -100) + translatePx(cursorX - 20, cursorY - 20)
+          translatePer(-100, 0) + translatePx(cursorX - 20, cursorY + 20)
       }
     }
   }

@@ -9,7 +9,7 @@ export interface PieProps {
   startAngle: number
   endAngle: number
 }
-export type PieData = ArcData[]
+export type PieData = Array<ArcData>
 
 export default class Pie extends Container {
   public radius: number
@@ -20,7 +20,7 @@ export default class Pie extends Container {
     innerRadiusRatio = 0,
     outerRadiusRatio = 1,
     startAngle = -PI * 0.5,
-    endAngle = PI * 1.5
+    endAngle = PI * 1.5,
   }: {
     innerRadiusRatio?: number
     outerRadiusRatio?: number
@@ -32,7 +32,7 @@ export default class Pie extends Container {
       innerRadiusRatio,
       outerRadiusRatio,
       startAngle,
-      endAngle: endAngle - startAngle
+      endAngle: endAngle - startAngle,
     }
     this.interactive = true
     this.on('added', this.onAdded)
@@ -52,7 +52,7 @@ export default class Pie extends Container {
       innerRadiusRatio,
       outerRadiusRatio,
       startAngle,
-      endAngle
+      endAngle,
     } = this.props
 
     this.removeChildren()
@@ -64,9 +64,9 @@ export default class Pie extends Container {
           innerRadius: this.radius * innerRadiusRatio,
           outerRadius: this.radius * outerRadiusRatio,
           startAngle: startAngle + endAngle * angleRatioFrom,
-          endAngle: startAngle + endAngle * angleRatioTo
+          endAngle: startAngle + endAngle * angleRatioTo,
         },
-        d
+        d,
       )
       arc.on('TOOLTIP_START', this.onTooltipStart)
       arc.on('TOOLTIP_MOVE', this.onTooltipMove)
@@ -82,7 +82,7 @@ export default class Pie extends Container {
 
   public onStageResize = ({
     width,
-    height
+    height,
   }: {
     width: number
     height: number
@@ -97,7 +97,7 @@ export default class Pie extends Container {
     this.emit('TOOLTIP_START', {
       cursorX: e.data.global.x,
       cursorY: e.data.global.y,
-      data: this.data
+      data: this.data,
     })
   }
 
@@ -105,7 +105,7 @@ export default class Pie extends Container {
     this.emit('TOOLTIP_END', {
       cursorX: e.data.global.x,
       cursorY: e.data.global.y,
-      data: this.data
+      data: this.data,
     })
   }
 
