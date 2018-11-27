@@ -47,6 +47,9 @@ export default class Pie extends Container {
     if (!this.data) {
       return
     }
+    if (!this.radius) {
+      return
+    }
 
     const {
       innerRadiusRatio,

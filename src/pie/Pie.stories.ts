@@ -149,7 +149,7 @@ const data2 = [
   },
 ]
 
-storiesOf('PieChart', module)
+storiesOf('pie/Pie', module)
   .add('basic', () => {
     const chart = new Chart(600, 400)
     const pie = new Pie()
