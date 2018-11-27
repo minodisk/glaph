@@ -13,12 +13,12 @@ export default class Chart {
 
   constructor(
     width: number | string = '100%',
-    height: number | string = '100%'
+    height: number | string = '100%',
   ) {
     this.app = new Application({
       antialias: true,
       transparent: true,
-      resolution: window.devicePixelRatio
+      resolution: window.devicePixelRatio,
     })
     this.app.renderer.autoResize = true
     this.app.view.style.position = 'absolute'
@@ -52,14 +52,14 @@ export default class Chart {
   public resize(width: number, height: number) {
     this.app.renderer.resize(width, height)
     this.app.stage.children.forEach(child =>
-      child.emit('STAGE_RESIZE', { width, height })
+      child.emit('STAGE_RESIZE', { width, height }),
     )
   }
 
   public onAppend = () => {
     this.element.removeEventListener(
       'DOMNodeInsertedIntoDocument',
-      this.onAppend
+      this.onAppend,
     )
 
     const { width, height } = this.stage.getBoundingClientRect()
@@ -75,8 +75,8 @@ export default class Chart {
 
   public onStageResize = ([
     {
-      contentRect: { width, height }
-    }
+      contentRect: { width, height },
+    },
   ]: any) => {
     this.resize(width, height)
   }
@@ -91,7 +91,7 @@ export default class Chart {
       e.cursorX,
       e.cursorY,
       this.app.renderer.width,
-      this.app.renderer.height
+      this.app.renderer.height,
     )
     this.tooltip.show()
   }
@@ -102,7 +102,7 @@ export default class Chart {
       e.cursorX,
       e.cursorY,
       this.app.renderer.width,
-      this.app.renderer.height
+      this.app.renderer.height,
     )
   }
 
@@ -111,7 +111,7 @@ export default class Chart {
       e.cursorX,
       e.cursorY,
       this.app.renderer.width,
-      this.app.renderer.height
+      this.app.renderer.height,
     )
     this.tooltip.hide()
   }
