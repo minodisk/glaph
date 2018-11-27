@@ -2,8 +2,8 @@ const { max, min, round } = Math
 
 /**
  * [0]: 0 ~ 360
- * [1]: 0x00 ~ 0xff
- * [2]: 0x00 ~ 0xff
+ * [1]: 0 ~ 1
+ * [2]: 0 ~ 1
  */
 export type HSV = [number, number, number]
 
@@ -26,8 +26,8 @@ const normalize = (v: number): number => {
   if (v < 0) {
     return 0
   }
-  if (v > 0xff) {
-    return 0xff
+  if (v > 1) {
+    return 1
   }
   return v
 }
@@ -56,17 +56,17 @@ export const rgb2hsv = (rgb: number): HSV => {
       h = 240 + 60 * ((r - g) / s)
       break
   }
-  return [h, a === 0 ? s : (s / a) * 0xff, a]
+  return [h, a === 0 ? s : s / a, a / 0xff]
 }
 
 export const hsv2rgb = ([h, s, v]: HSV): number => {
   if (s <= 0) {
-    return (v << 16) | (v << 8) | v
+    const c = round(v * 0xff)
+    return (c << 16) | (c << 8) | c
   }
   h /= 60
   const i = h >> 0
   const f = h - i
-  s /= 0xff
   let r = v
   let g = v
   let b = v
@@ -97,5 +97,5 @@ export const hsv2rgb = ([h, s, v]: HSV): number => {
       b *= 1 - s * f
       break
   }
-  return (round(r) << 16) | (round(g) << 8) | round(b)
+  return (round(r * 0xff) << 16) | (round(g * 0xff) << 8) | round(b * 0xff)
 }
