@@ -6,11 +6,11 @@ import { TooltipEvent } from './tooltip/TooltipEvent'
 export default class Chart {
   public element: HTMLDivElement
   public stage: HTMLDivElement
-  public stageWidth: number
-  public stageHeight: number
+  public stageWidth: number = 0
+  public stageHeight: number = 0
   public app: Application
   public tooltip: Tooltip
-  public tooltipRenderer: TooltipRenderer
+  public tooltipRenderer?: TooltipRenderer
   public obs: any
 
   constructor(

@@ -12,9 +12,9 @@ export interface PieProps {
 export type PieData = Array<ArcData>
 
 export default class Pie extends Container {
-  public radius: number
+  public radius: number = 0
   public props: PieProps
-  public data: PieData
+  public data: PieData = []
 
   constructor({
     innerRadiusRatio = 0,
