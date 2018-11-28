@@ -151,14 +151,14 @@ const data2 = [
 
 storiesOf('pie/Pie', module)
   .add('basic', () => {
-    const chart = new Chart(600, 400)
+    const chart = new Chart({ width: 600, height: 400 })
     const pie = new Pie()
     pie.render(data1)
     chart.addChart(pie)
     return chart.element
   })
   .add('donuts', () => {
-    const chart = new Chart(600, 400)
+    const chart = new Chart({ width: 600, height: 400 })
     const pie = new Pie({
       innerRadiusRatio: 0.6,
       outerRadiusRatio: 1,
@@ -168,7 +168,7 @@ storiesOf('pie/Pie', module)
     return chart.element
   })
   .add('double donuts', () => {
-    const chart = new Chart(600, 400)
+    const chart = new Chart({ width: 600, height: 400 })
     const pie1 = new Pie({
       innerRadiusRatio: 0,
       outerRadiusRatio: 0.5,
@@ -184,7 +184,7 @@ storiesOf('pie/Pie', module)
     return chart.element
   })
   .add('half donuts', () => {
-    const chart = new Chart(600, 400)
+    const chart = new Chart({ width: 600, height: 400 })
     const pie = new Pie({
       innerRadiusRatio: 0.6,
       outerRadiusRatio: 1,

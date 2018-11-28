@@ -1,36 +1,37 @@
-import { Application } from 'pixi.js'
-import Pie from './pie/Pie'
+import { Application, Container } from 'pixi.js'
 import Tooltip, { TooltipRenderer } from './tooltip/Tooltip'
 import { TooltipEvent } from './tooltip/TooltipEvent'
 
-export default class Chart {
+export default class Chart extends Application {
   public element: HTMLDivElement
-  public stage: HTMLDivElement
+  public viewport: HTMLDivElement
   public stageWidth: number = 0
   public stageHeight: number = 0
-  public app: Application
   public tooltip: Tooltip
   public tooltipRenderer?: TooltipRenderer
   public obs: any
 
-  constructor(
-    width: number | string = '100%',
-    height: number | string = '100%',
-  ) {
-    this.app = new Application({
+  constructor({
+    width = '100%',
+    height = '100%',
+  }: {
+    width: number | string
+    height: number | string
+  }) {
+    super({
       antialias: true,
       transparent: true,
       resolution: window.devicePixelRatio,
     })
-    this.app.renderer.autoResize = true
-    this.app.view.style.position = 'absolute'
+    this.renderer.autoResize = true
+    this.view.style.position = 'absolute'
 
-    this.stage = document.createElement('div')
-    this.stage.style.width = '100%'
-    this.stage.style.height = '100%'
-    this.stage.style.overflow = 'hidden'
-    this.stage.style.position = 'relative'
-    this.stage.appendChild(this.app.view)
+    this.viewport = document.createElement('div')
+    this.viewport.style.width = '100%'
+    this.viewport.style.height = '100%'
+    this.viewport.style.overflow = 'hidden'
+    this.viewport.style.position = 'relative'
+    this.viewport.appendChild(this.view)
 
     this.tooltip = new Tooltip(this.tooltipRenderer)
 
@@ -39,23 +40,23 @@ export default class Chart {
     this.element.style.height =
       typeof height === 'number' ? `${height}px` : height
     this.element.style.position = 'relative'
-    this.element.appendChild(this.stage)
+    this.element.appendChild(this.viewport)
     this.element.appendChild(this.tooltip.element)
     this.element.addEventListener('DOMNodeInsertedIntoDocument', this.onAppend)
   }
 
-  public addChart(body: Pie) {
+  public addChart(body: Container) {
     body.on('TOOLTIP_START', this.onTooltipStart)
     body.on('TOOLTIP_MOVE', this.onTooltipMove)
     body.on('TOOLTIP_END', this.onTooltipEnd)
-    this.app.stage.addChild(body)
+    this.stage.addChild(body)
   }
 
   public resize(width: number, height: number) {
     this.stageWidth = width
     this.stageHeight = height
-    this.app.renderer.resize(width, height)
-    this.app.stage.children.forEach(child =>
+    this.renderer.resize(width, height)
+    this.stage.children.forEach(child =>
       child.emit('STAGE_RESIZE', { width, height }),
     )
   }
@@ -66,12 +67,12 @@ export default class Chart {
       this.onAppend,
     )
 
-    const { width, height } = this.stage.getBoundingClientRect()
+    const { width, height } = this.viewport.getBoundingClientRect()
     this.resize(width, height)
 
     if ((window as any).ResizeObserver) {
       this.obs = new (window as any).ResizeObserver(this.onStageResize)
-      this.obs.observe(this.stage)
+      this.obs.observe(this.viewport)
     } else {
       window.addEventListener('resize', this.onWindowResize)
     }
@@ -86,7 +87,7 @@ export default class Chart {
   }
 
   public onWindowResize = () => {
-    const { width, height } = this.stage.getBoundingClientRect()
+    const { width, height } = this.viewport.getBoundingClientRect()
     this.resize(width, height)
   }
 
