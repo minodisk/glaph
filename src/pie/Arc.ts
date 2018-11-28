@@ -16,7 +16,7 @@ export interface ArcData {
 }
 
 export default class Arc extends Graphics {
-  public data: ArcData
+  public data?: ArcData
 
   constructor() {
     super()

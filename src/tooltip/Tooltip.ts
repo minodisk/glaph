@@ -96,17 +96,17 @@ export default class Tooltip {
         this.element.style.transform =
           translatePer(-100, -100) + translatePx(cursorX - 20, cursorY - 20)
       } else {
-        // Orthnat 2
+        // Orthant 2
         this.element.style.transform =
           translatePer(0, -100) + translatePx(cursorX + 20, cursorY - 20)
       }
     } else {
       if (orthantX < 0) {
-        // Ortahnt 3
+        // Orthant 3
         this.element.style.transform =
           translatePer(0, 0) + translatePx(cursorX + 20, cursorY + 20)
       } else {
-        // Ortahnt 4
+        // Orthant 4
         this.element.style.transform =
           translatePer(-100, 0) + translatePx(cursorX - 20, cursorY + 20)
       }
