@@ -1,6 +1,6 @@
 import { storiesOf } from '@storybook/html'
 import { blue, green, orange, red, yellow } from '../__fixtures__/colors'
-import Chart from '../Chart'
+import Application from '../Application'
 import { saturation } from '../utils/color'
 import Pie from './Pie'
 
@@ -151,14 +151,14 @@ const data2 = [
 
 storiesOf('pie/Pie', module)
   .add('basic', () => {
-    const chart = new Chart({ width: 600, height: 400 })
+    const chart = new Application({ width: 600, height: 400 })
     const pie = new Pie()
     pie.render(data1)
     chart.addChart(pie)
     return chart.element
   })
   .add('donuts', () => {
-    const chart = new Chart({ width: 600, height: 400 })
+    const chart = new Application({ width: 600, height: 400 })
     const pie = new Pie({
       innerRadiusRatio: 0.6,
       outerRadiusRatio: 1,
@@ -168,7 +168,7 @@ storiesOf('pie/Pie', module)
     return chart.element
   })
   .add('double donuts', () => {
-    const chart = new Chart({ width: 600, height: 400 })
+    const chart = new Application({ width: 600, height: 400 })
     const pie1 = new Pie({
       innerRadiusRatio: 0,
       outerRadiusRatio: 0.5,
@@ -184,7 +184,7 @@ storiesOf('pie/Pie', module)
     return chart.element
   })
   .add('half donuts', () => {
-    const chart = new Chart({ width: 600, height: 400 })
+    const chart = new Application({ width: 600, height: 400 })
     const pie = new Pie({
       innerRadiusRatio: 0.6,
       outerRadiusRatio: 1,

@@ -1,6 +1,6 @@
 import { storiesOf } from '@storybook/html'
 import { red } from '../__fixtures__/colors'
-import Chart from '../Chart'
+import Application from '../Application'
 import Arc from './Arc'
 
 const book = storiesOf('pie/Arc', module)
@@ -68,7 +68,7 @@ const book = storiesOf('pie/Arc', module)
         payload: null,
       },
     )
-    const chart = new Chart({
+    const chart = new Application({
       width: 600,
       height: 400,
     })

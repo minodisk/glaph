@@ -1,8 +1,8 @@
-import { Application, Container } from 'pixi.js'
+import { Application as PIXIApplication, Container } from 'pixi.js'
 import Tooltip, { TooltipRenderer } from './tooltip/Tooltip'
 import { TooltipEvent } from './tooltip/TooltipEvent'
 
-export default class Chart extends Application {
+export default class Application extends PIXIApplication {
   public element: HTMLDivElement
   public viewport: HTMLDivElement
   public stageWidth: number = 0

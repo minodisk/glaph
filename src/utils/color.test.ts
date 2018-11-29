@@ -46,7 +46,7 @@ describe('utils/color', () => {
     for (let i = 0; i <= 1000; i += 1) {
       const rgb = (0xffffff * Math.random()) >> 0
       const [h, s, v] = rgb2hsv(rgb)
-      it(`hsv should be in valid range`, () => {
+      it(`hsv should be in valid range: ${rgb.toString(16)}`, () => {
         assert(h >= 0)
         assert(h <= 360)
         assert(s >= 0)
