@@ -7,6 +7,7 @@
     "interface-name": false,
     "no-bitwise": false,
     "prettier": true,
+    "triple-equals": [true, "allow-undefined-check"],
     "object-literal-sort-keys": false
   },
   "rulesDirectory": ["tslint-plugin-prettier"]

@@ -45,11 +45,12 @@ export default class Application extends PIXIApplication {
     this.element.addEventListener('DOMNodeInsertedIntoDocument', this.onAppend)
   }
 
-  public addChart(body: Container) {
-    body.on('TOOLTIP_START', this.onTooltipStart)
-    body.on('TOOLTIP_MOVE', this.onTooltipMove)
-    body.on('TOOLTIP_END', this.onTooltipEnd)
-    this.stage.addChild(body)
+  public addChart(chart: Container) {
+    chart.on('tooltipstart', this.onTooltipStart)
+    chart.on('tooltipmove', this.onTooltipMove)
+    chart.on('tooltipend', this.onTooltipEnd)
+    chart.on('tooltipdata', this.onTooltipData)
+    this.stage.addChild(chart)
   }
 
   public resize(width: number, height: number) {
@@ -57,7 +58,7 @@ export default class Application extends PIXIApplication {
     this.stageHeight = height
     this.renderer.resize(width, height)
     this.stage.children.forEach(child =>
-      child.emit('STAGE_RESIZE', { width, height }),
+      child.emit('stageresize', { width, height }),
     )
   }
 
@@ -97,12 +98,15 @@ export default class Application extends PIXIApplication {
   }
 
   public onTooltipMove = (e: TooltipEvent) => {
-    this.tooltip.render(e.data)
     this.tooltip.moveTo(e.cursorX, e.cursorY, this.stageWidth, this.stageHeight)
   }
 
   public onTooltipEnd = (e: TooltipEvent) => {
     this.tooltip.moveTo(e.cursorX, e.cursorY, this.stageWidth, this.stageHeight)
     this.tooltip.hide()
+  }
+
+  public onTooltipData = (e: TooltipEvent) => {
+    this.tooltip.render(e.data)
   }
 }
