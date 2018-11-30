@@ -94,21 +94,25 @@ export default class Tooltip {
       if (orthantX > 0) {
         // Orthant 1
         this.element.style.transform =
-          translatePer(-100, -100) + translatePx(cursorX - 20, cursorY - 20)
+          translatePer(-100, -100) +
+          translatePx((cursorX - 20) >> 0, (cursorY - 20) >> 0)
       } else {
         // Orthant 2
         this.element.style.transform =
-          translatePer(0, -100) + translatePx(cursorX + 20, cursorY - 20)
+          translatePer(0, -100) +
+          translatePx((cursorX + 20) >> 0, (cursorY - 20) >> 0)
       }
     } else {
       if (orthantX < 0) {
         // Orthant 3
         this.element.style.transform =
-          translatePer(0, 0) + translatePx(cursorX + 20, cursorY + 20)
+          translatePer(0, 0) +
+          translatePx((cursorX + 20) >> 0, (cursorY + 20) >> 0)
       } else {
         // Orthant 4
         this.element.style.transform =
-          translatePer(-100, 0) + translatePx(cursorX - 20, cursorY + 20)
+          translatePer(-100, 0) +
+          translatePx((cursorX - 20) >> 0, (cursorY + 20) >> 0)
       }
     }
   }

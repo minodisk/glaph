@@ -2,7 +2,7 @@ import { storiesOf } from '@storybook/html'
 import { blue, green, orange, red, yellow } from '../__fixtures__/colors'
 import Application from '../Application'
 import { saturation } from '../utils/color'
-import Pie from './Pie'
+import Chart from './Chart'
 
 const data1 = [
   {
@@ -151,47 +151,57 @@ const data2 = [
 
 storiesOf('pie/Pie', module)
   .add('basic', () => {
-    const chart = new Application({ width: 600, height: 400 })
-    const pie = new Pie()
-    pie.render(data1)
-    chart.addChart(pie)
-    return chart.element
+    const app = new Application({ width: 600, height: 400 })
+    const chart = new Chart()
+    chart.render([data1])
+    app.addChart(chart)
+    return app.element
   })
   .add('donuts', () => {
-    const chart = new Application({ width: 600, height: 400 })
-    const pie = new Pie({
-      innerRadiusRatio: 0.6,
-      outerRadiusRatio: 1,
+    const app = new Application({ width: 600, height: 400 })
+    const chart = new Chart({
+      radiusRatios: [
+        {
+          inner: 0.6,
+          outer: 1,
+        },
+      ],
     })
-    pie.render(data1)
-    chart.addChart(pie)
-    return chart.element
+    chart.render([data1])
+    app.addChart(chart)
+    return app.element
   })
   .add('double donuts', () => {
-    const chart = new Application({ width: 600, height: 400 })
-    const pie1 = new Pie({
-      innerRadiusRatio: 0,
-      outerRadiusRatio: 0.5,
+    const app = new Application({ width: 600, height: 400 })
+    const chart = new Chart({
+      radiusRatios: [
+        {
+          inner: 0,
+          outer: 0.5,
+        },
+        {
+          inner: 0.5,
+          outer: 1,
+        },
+      ],
     })
-    pie1.render(data1)
-    chart.addChart(pie1)
-    const pie2 = new Pie({
-      innerRadiusRatio: 0.5,
-      outerRadiusRatio: 1,
-    })
-    pie2.render(data2)
-    chart.addChart(pie2)
-    return chart.element
+    chart.render([data1, data2])
+    app.addChart(chart)
+    return app.element
   })
   .add('half donuts', () => {
-    const chart = new Application({ width: 600, height: 400 })
-    const pie = new Pie({
-      innerRadiusRatio: 0.6,
-      outerRadiusRatio: 1,
+    const app = new Application({ width: 600, height: 400 })
+    const chart = new Chart({
       startAngle: -Math.PI,
       endAngle: 0,
+      radiusRatios: [
+        {
+          inner: 0.6,
+          outer: 1,
+        },
+      ],
     })
-    pie.render(data1)
-    chart.addChart(pie)
-    return chart.element
+    chart.render([data1])
+    app.addChart(chart)
+    return app.element
   })

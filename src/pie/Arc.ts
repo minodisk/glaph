@@ -51,32 +51,9 @@ export default class Arc extends Graphics {
   }
 
   public onMouseOver = (e: interaction.InteractionEvent) => {
-    this.emit('TOOLTIP_START', {
-      cursorX: e.data.global.x,
-      cursorY: e.data.global.y,
+    this.emit('tooltipdata', {
       data: this.data,
     })
     this.off('mouseover', this.onMouseOver)
-    this.on('mousemove', this.onMouseMove)
-    this.on('mouseout', this.onMouseOut)
-  }
-
-  public onMouseMove = (e: interaction.InteractionEvent) => {
-    this.emit('TOOLTIP_MOVE', {
-      cursorX: e.data.global.x,
-      cursorY: e.data.global.y,
-      data: this.data,
-    })
-  }
-
-  public onMouseOut = (e: interaction.InteractionEvent) => {
-    this.emit('TOOLTIP_END', {
-      cursorX: e.data.global.x,
-      cursorY: e.data.global.y,
-      data: this.data,
-    })
-    this.on('mouseover', this.onMouseOver)
-    this.off('mousemove', this.onMouseMove)
-    this.off('mouseout', this.onMouseOut)
   }
 }
