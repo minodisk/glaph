@@ -1,6 +1,8 @@
 import { utils } from 'pixi.js'
 import { translatePer, translatePx } from '../utils/style'
 
+const { sin, cos, atan2, PI } = Math
+
 export interface TooltipProps {
   color: number
   payload: { [key: string]: any }
@@ -22,7 +24,7 @@ export default class Tooltip {
     this.element.style.position = 'absolute'
     this.element.style.top = '0'
     this.element.style.left = '0'
-    this.element.style.transitionDuration = '0.15s'
+    this.element.style.transitionDuration = '0.1s'
     this.element.style.transitionProperty = 'transform'
     this.element.style.transitionTimingFunction = 'ease-out'
 
@@ -69,18 +71,6 @@ export default class Tooltip {
   /**
    * Move tooltip to cursor position.
    * Place the tooltip in a position that does not get under the cursor. To do this, place the tooltip in the direction of the opposite direction of the orthant where the cursor is located.
-   *
-   * Orthant:
-   *
-   *       |
-   *    3  |  4
-   *       |
-   *  -----+----->x
-   *       |
-   *    2  |  1
-   *       |
-   *       v
-   *       y
    */
   public moveTo(
     cursorX: number,
@@ -88,32 +78,25 @@ export default class Tooltip {
     stageWidth: number,
     stageHeight: number,
   ) {
-    const orthantX = cursorX - stageWidth / 2
-    const orthantY = cursorY - stageHeight / 2
-    if (orthantY > 0) {
-      if (orthantX > 0) {
-        // Orthant 1
-        this.element.style.transform =
-          translatePer(-100, -100) +
-          translatePx((cursorX - 20) >> 0, (cursorY - 20) >> 0)
-      } else {
-        // Orthant 2
-        this.element.style.transform =
-          translatePer(0, -100) +
-          translatePx((cursorX + 20) >> 0, (cursorY - 20) >> 0)
-      }
+    const x = cursorX - stageWidth / 2
+    const y = cursorY - stageHeight / 2
+    const t = atan2(y, x)
+    const px = translatePx(
+      (cursorX - 20 * cos(t)) >> 0,
+      (cursorY - 20 * sin(t)) >> 0,
+    )
+    if (t >= PI * 0.25 && t < PI * 0.75) {
+      this.element.style.transform =
+        translatePer(-50 - 50 * cos(t * 2 - PI * 0.5), -100) + px
+    } else if (t >= PI * 0.75 || t < -PI * 0.75) {
+      this.element.style.transform =
+        translatePer(0, -50 - 50 * sin(t * 2 - PI)) + px
+    } else if (t >= -PI * 0.75 && t < -PI * 0.25) {
+      this.element.style.transform =
+        translatePer(-50 - 50 * cos(t * 2 - PI * 1.5), 0) + px
     } else {
-      if (orthantX < 0) {
-        // Orthant 3
-        this.element.style.transform =
-          translatePer(0, 0) +
-          translatePx((cursorX + 20) >> 0, (cursorY + 20) >> 0)
-      } else {
-        // Orthant 4
-        this.element.style.transform =
-          translatePer(-100, 0) +
-          translatePx((cursorX - 20) >> 0, (cursorY + 20) >> 0)
-      }
+      this.element.style.transform =
+        translatePer(-100, -50 - 50 * sin(t * 2 - PI * 2)) + px
     }
   }
 }

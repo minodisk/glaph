@@ -1,6 +1,7 @@
 import { storiesOf } from '@storybook/html'
 import { blue, green, orange, red, yellow } from '../__fixtures__/colors'
 import Application from '../Application'
+import Tooltip from '../tooltip/Tooltip'
 import { saturation } from '../utils/color'
 import Chart from './Chart'
 
@@ -152,9 +153,10 @@ const data2 = [
 storiesOf('pie/Pie', module)
   .add('basic', () => {
     const app = new Application({ width: 600, height: 400 })
+    app.setTooltip(new Tooltip())
     const chart = new Chart()
     chart.render([data1])
-    app.addChart(chart)
+    app.setChart(chart)
     return app.element
   })
   .add('donuts', () => {
@@ -168,11 +170,12 @@ storiesOf('pie/Pie', module)
       ],
     })
     chart.render([data1])
-    app.addChart(chart)
+    app.setChart(chart)
     return app.element
   })
   .add('double donuts', () => {
     const app = new Application({ width: 600, height: 400 })
+    app.setTooltip(new Tooltip())
     const chart = new Chart({
       radiusRatios: [
         {
@@ -186,11 +189,12 @@ storiesOf('pie/Pie', module)
       ],
     })
     chart.render([data1, data2])
-    app.addChart(chart)
+    app.setChart(chart)
     return app.element
   })
   .add('half donuts', () => {
     const app = new Application({ width: 600, height: 400 })
+    app.setTooltip(new Tooltip())
     const chart = new Chart({
       startAngle: -Math.PI,
       endAngle: 0,
@@ -202,6 +206,6 @@ storiesOf('pie/Pie', module)
       ],
     })
     chart.render([data1])
-    app.addChart(chart)
+    app.setChart(chart)
     return app.element
   })
