@@ -27,19 +27,21 @@ storiesOf('tooltip/Tooltip', module)
     return tooltip.element
   })
   .add('custom renderer', () => {
-    const tooltip = new Tooltip(({ color, payload }) => {
-      const ol = document.createElement('ol')
-      ol.style.margin = '0'
-      ol.style.padding = '10px 10px 10px 30px'
-      ol.style.borderRadius = '5px'
-      ol.style.backgroundColor = utils.hex2string(color)
-      ol.style.color = 'white'
-      Object.keys(payload).forEach((key: string) => {
-        const li = document.createElement('li')
-        li.innerText = `${key}: ${payload[key]}`
-        ol.appendChild(li)
-      })
-      return ol
+    const tooltip = new Tooltip({
+      renderer: ({ color, payload }) => {
+        const ol = document.createElement('ol')
+        ol.style.margin = '0'
+        ol.style.padding = '10px 10px 10px 30px'
+        ol.style.borderRadius = '5px'
+        ol.style.backgroundColor = utils.hex2string(color)
+        ol.style.color = 'white'
+        Object.keys(payload).forEach((key: string) => {
+          const li = document.createElement('li')
+          li.innerText = `${key}: ${payload[key]}`
+          ol.appendChild(li)
+        })
+        return ol
+      },
     })
     tooltip.render({
       color: red,

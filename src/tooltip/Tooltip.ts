@@ -2,18 +2,35 @@ import { utils } from 'pixi.js'
 import { translatePer, translatePx } from '../utils/style'
 
 const { sin, cos, atan2, PI } = Math
+const D45 = PI * 0.25
+const D90 = PI * 0.5
+const D135 = PI * 0.75
+const D270 = PI * 1.5
+const D360 = PI * 2
 
-export interface TooltipProps {
+export interface TooltipData {
   color: number
   payload: { [key: string]: any }
 }
 
-export type TooltipRenderer = (props: TooltipProps) => HTMLElement
+export interface TooltipProps {
+  margin: number
+}
+
+export type TooltipRenderer = (data: TooltipData) => HTMLElement
 
 export default class Tooltip {
   public element: HTMLDivElement
+  private readonly props: TooltipProps
 
-  constructor(renderer?: TooltipRenderer) {
+  constructor({
+    renderer,
+    margin = 20,
+  }: {
+    renderer?: TooltipRenderer
+    margin?: number
+  } = {}) {
+    this.props = { margin }
     if (renderer) {
       this.renderer = renderer
     }
@@ -39,14 +56,14 @@ export default class Tooltip {
     this.element.style.display = 'none'
   }
 
-  public render(props: TooltipProps) {
+  public render(data: TooltipData) {
     while (this.element.firstChild) {
       this.element.removeChild(this.element.firstChild)
     }
-    this.element.appendChild(this.renderer(props))
+    this.element.appendChild(this.renderer(data))
   }
 
-  public renderer({ color, payload }: TooltipProps): HTMLElement {
+  public renderer({ color, payload }: TooltipData): HTMLElement {
     const box = document.createElement('div')
     box.style.backgroundColor = 'white'
     box.style.border = `1px solid ${utils.hex2string(color)}`
@@ -78,25 +95,26 @@ export default class Tooltip {
     stageWidth: number,
     stageHeight: number,
   ) {
+    const { margin } = this.props
     const x = cursorX - stageWidth / 2
     const y = cursorY - stageHeight / 2
     const t = atan2(y, x)
     const px = translatePx(
-      (cursorX - 20 * cos(t)) >> 0,
-      (cursorY - 20 * sin(t)) >> 0,
+      (cursorX - margin * cos(t)) >> 0,
+      (cursorY - margin * sin(t)) >> 0,
     )
-    if (t >= PI * 0.25 && t < PI * 0.75) {
+    if (t >= D45 && t < D135) {
       this.element.style.transform =
-        translatePer(-50 - 50 * cos(t * 2 - PI * 0.5), -100) + px
-    } else if (t >= PI * 0.75 || t < -PI * 0.75) {
+        translatePer(-50 - 50 * cos(t * 2 - D90), -100) + px
+    } else if (t >= D135 || t < -D135) {
       this.element.style.transform =
         translatePer(0, -50 - 50 * sin(t * 2 - PI)) + px
-    } else if (t >= -PI * 0.75 && t < -PI * 0.25) {
+    } else if (t >= -D135 && t < -D45) {
       this.element.style.transform =
-        translatePer(-50 - 50 * cos(t * 2 - PI * 1.5), 0) + px
+        translatePer(-50 - 50 * cos(t * 2 - D270), 0) + px
     } else {
       this.element.style.transform =
-        translatePer(-100, -50 - 50 * sin(t * 2 - PI * 2)) + px
+        translatePer(-100, -50 - 50 * sin(t * 2 - D360)) + px
     }
   }
 }
