@@ -1,17 +1,36 @@
 import { utils } from 'pixi.js'
 import { translatePer, translatePx } from '../utils/style'
 
-export interface TooltipProps {
+const { sin, cos, atan2, PI } = Math
+const D45 = PI * 0.25
+const D90 = PI * 0.5
+const D135 = PI * 0.75
+const D270 = PI * 1.5
+const D360 = PI * 2
+
+export interface TooltipData {
   color: number
   payload: { [key: string]: any }
 }
 
-export type TooltipRenderer = (props: TooltipProps) => HTMLElement
+export interface TooltipProps {
+  margin: number
+}
+
+export type TooltipRenderer = (data: TooltipData) => HTMLElement
 
 export default class Tooltip {
   public element: HTMLDivElement
+  private readonly props: TooltipProps
 
-  constructor(renderer?: TooltipRenderer) {
+  constructor({
+    renderer,
+    margin = 20,
+  }: {
+    renderer?: TooltipRenderer
+    margin?: number
+  } = {}) {
+    this.props = { margin }
     if (renderer) {
       this.renderer = renderer
     }
@@ -22,7 +41,7 @@ export default class Tooltip {
     this.element.style.position = 'absolute'
     this.element.style.top = '0'
     this.element.style.left = '0'
-    this.element.style.transitionDuration = '0.15s'
+    this.element.style.transitionDuration = '0.1s'
     this.element.style.transitionProperty = 'transform'
     this.element.style.transitionTimingFunction = 'ease-out'
 
@@ -37,14 +56,14 @@ export default class Tooltip {
     this.element.style.display = 'none'
   }
 
-  public render(props: TooltipProps) {
+  public render(data: TooltipData) {
     while (this.element.firstChild) {
       this.element.removeChild(this.element.firstChild)
     }
-    this.element.appendChild(this.renderer(props))
+    this.element.appendChild(this.renderer(data))
   }
 
-  public renderer({ color, payload }: TooltipProps): HTMLElement {
+  public renderer({ color, payload }: TooltipData): HTMLElement {
     const box = document.createElement('div')
     box.style.backgroundColor = 'white'
     box.style.border = `1px solid ${utils.hex2string(color)}`
@@ -69,18 +88,6 @@ export default class Tooltip {
   /**
    * Move tooltip to cursor position.
    * Place the tooltip in a position that does not get under the cursor. To do this, place the tooltip in the direction of the opposite direction of the orthant where the cursor is located.
-   *
-   * Orthant:
-   *
-   *       |
-   *    3  |  4
-   *       |
-   *  -----+----->x
-   *       |
-   *    2  |  1
-   *       |
-   *       v
-   *       y
    */
   public moveTo(
     cursorX: number,
@@ -88,32 +95,26 @@ export default class Tooltip {
     stageWidth: number,
     stageHeight: number,
   ) {
-    const orthantX = cursorX - stageWidth / 2
-    const orthantY = cursorY - stageHeight / 2
-    if (orthantY > 0) {
-      if (orthantX > 0) {
-        // Orthant 1
-        this.element.style.transform =
-          translatePer(-100, -100) +
-          translatePx((cursorX - 20) >> 0, (cursorY - 20) >> 0)
-      } else {
-        // Orthant 2
-        this.element.style.transform =
-          translatePer(0, -100) +
-          translatePx((cursorX + 20) >> 0, (cursorY - 20) >> 0)
-      }
+    const { margin } = this.props
+    const x = cursorX - stageWidth / 2
+    const y = cursorY - stageHeight / 2
+    const t = atan2(y, x)
+    const px = translatePx(
+      (cursorX - margin * cos(t)) >> 0,
+      (cursorY - margin * sin(t)) >> 0,
+    )
+    if (t >= D45 && t < D135) {
+      this.element.style.transform =
+        translatePer(-50 - 50 * cos(t * 2 - D90), -100) + px
+    } else if (t >= D135 || t < -D135) {
+      this.element.style.transform =
+        translatePer(0, -50 - 50 * sin(t * 2 - PI)) + px
+    } else if (t >= -D135 && t < -D45) {
+      this.element.style.transform =
+        translatePer(-50 - 50 * cos(t * 2 - D270), 0) + px
     } else {
-      if (orthantX < 0) {
-        // Orthant 3
-        this.element.style.transform =
-          translatePer(0, 0) +
-          translatePx((cursorX + 20) >> 0, (cursorY + 20) >> 0)
-      } else {
-        // Orthant 4
-        this.element.style.transform =
-          translatePer(-100, 0) +
-          translatePx((cursorX - 20) >> 0, (cursorY + 20) >> 0)
-      }
+      this.element.style.transform =
+        translatePer(-100, -50 - 50 * sin(t * 2 - D360)) + px
     }
   }
 }

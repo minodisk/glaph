@@ -72,7 +72,7 @@ const book = storiesOf('pie/Arc', module)
       width: 600,
       height: 400,
     })
-    chart.addChart(arc)
+    chart.setChart(arc as any)
     return chart.element
   })
 })

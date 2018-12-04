@@ -1,5 +1,6 @@
-import { Application as PIXIApplication, Container } from 'pixi.js'
-import Tooltip, { TooltipRenderer } from './tooltip/Tooltip'
+import { Application as PIXIApplication } from 'pixi.js'
+import PieChart from './pie/Chart'
+import Tooltip from './tooltip/Tooltip'
 import { TooltipEvent } from './tooltip/TooltipEvent'
 
 export default class Application extends PIXIApplication {
@@ -7,17 +8,17 @@ export default class Application extends PIXIApplication {
   public viewport: HTMLDivElement
   public stageWidth: number = 0
   public stageHeight: number = 0
-  public tooltip: Tooltip
-  public tooltipRenderer?: TooltipRenderer
   public obs: any
+  private chart?: PieChart
+  private tooltip?: Tooltip
 
   constructor({
     width = '100%',
     height = '100%',
   }: {
-    width: number | string
-    height: number | string
-  }) {
+    width?: number | string
+    height?: number | string
+  } = {}) {
     super({
       antialias: true,
       transparent: true,
@@ -33,24 +34,32 @@ export default class Application extends PIXIApplication {
     this.viewport.style.position = 'relative'
     this.viewport.appendChild(this.view)
 
-    this.tooltip = new Tooltip(this.tooltipRenderer)
-
     this.element = document.createElement('div')
     this.element.style.width = typeof width === 'number' ? `${width}px` : width
     this.element.style.height =
       typeof height === 'number' ? `${height}px` : height
     this.element.style.position = 'relative'
     this.element.appendChild(this.viewport)
-    this.element.appendChild(this.tooltip.element)
     this.element.addEventListener('DOMNodeInsertedIntoDocument', this.onAppend)
   }
 
-  public addChart(chart: Container) {
-    chart.on('tooltipstart', this.onTooltipStart)
-    chart.on('tooltipmove', this.onTooltipMove)
-    chart.on('tooltipend', this.onTooltipEnd)
-    chart.on('tooltipdata', this.onTooltipData)
+  public setChart(chart: PieChart) {
+    if (this.chart != undefined) {
+      this.chart.removeAllListeners()
+      this.stage.removeChild(this.chart)
+    }
+    this.chart = chart
+    this.listenTooltipEvents()
     this.stage.addChild(chart)
+  }
+
+  public setTooltip(tooltip: Tooltip) {
+    if (this.tooltip != undefined) {
+      this.element.removeChild(this.tooltip.element)
+    }
+    this.tooltip = tooltip
+    this.listenTooltipEvents()
+    this.element.appendChild(this.tooltip.element)
   }
 
   public resize(width: number, height: number) {
@@ -62,7 +71,17 @@ export default class Application extends PIXIApplication {
     )
   }
 
-  public onAppend = () => {
+  private listenTooltipEvents() {
+    if (this.chart == undefined || this.tooltip == undefined) {
+      return
+    }
+    this.chart.on('tooltipstart', this.onTooltipStart)
+    this.chart.on('tooltipmove', this.onTooltipMove)
+    this.chart.on('tooltipend', this.onTooltipEnd)
+    this.chart.on('tooltipdata', this.onTooltipData)
+  }
+
+  private onAppend = () => {
     this.element.removeEventListener(
       'DOMNodeInsertedIntoDocument',
       this.onAppend,
@@ -79,7 +98,7 @@ export default class Application extends PIXIApplication {
     }
   }
 
-  public onStageResize = ([
+  private onStageResize = ([
     {
       contentRect: { width, height },
     },
@@ -87,26 +106,38 @@ export default class Application extends PIXIApplication {
     this.resize(width, height)
   }
 
-  public onWindowResize = () => {
+  private onWindowResize = () => {
     const { width, height } = this.viewport.getBoundingClientRect()
     this.resize(width, height)
   }
 
-  public onTooltipStart = (e: TooltipEvent) => {
+  private onTooltipStart = (e: TooltipEvent) => {
+    if (this.tooltip == undefined) {
+      return
+    }
     this.tooltip.moveTo(e.cursorX, e.cursorY, this.stageWidth, this.stageHeight)
     this.tooltip.show()
   }
 
-  public onTooltipMove = (e: TooltipEvent) => {
+  private onTooltipMove = (e: TooltipEvent) => {
+    if (this.tooltip == undefined) {
+      return
+    }
     this.tooltip.moveTo(e.cursorX, e.cursorY, this.stageWidth, this.stageHeight)
   }
 
-  public onTooltipEnd = (e: TooltipEvent) => {
+  private onTooltipEnd = (e: TooltipEvent) => {
+    if (this.tooltip == undefined) {
+      return
+    }
     this.tooltip.moveTo(e.cursorX, e.cursorY, this.stageWidth, this.stageHeight)
     this.tooltip.hide()
   }
 
-  public onTooltipData = (e: TooltipEvent) => {
+  private onTooltipData = (e: TooltipEvent) => {
+    if (this.tooltip == undefined) {
+      return
+    }
     this.tooltip.render(e.data)
   }
 }
