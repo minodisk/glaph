@@ -1,8 +1,8 @@
-import { Container, interaction } from 'pixi.js'
+import BaseChart from '../common/Chart'
 import { bubble } from '../utils/event'
 import Pie, { PieData } from './Pie'
 
-const { PI } = Math
+const { PI, min } = Math
 
 export interface ChartProps {
   startAngle: number
@@ -17,10 +17,8 @@ interface RadiusRatio {
 
 export type ChartData = Array<PieData>
 
-export default class Chart extends Container {
+export default class Chart extends BaseChart<ChartData> {
   private readonly props: ChartProps
-  private data?: ChartData
-  private radius?: number
 
   constructor({
     startAngle = -PI * 0.5,
@@ -37,21 +35,17 @@ export default class Chart extends Container {
       endAngle,
       radiusRatios,
     }
-    this.interactive = true
-    this.on('added', this.onAdded)
   }
 
-  public render(data: ChartData) {
-    this.data = data
-    this.rerender()
-  }
-
-  private rerender() {
-    if (this.data == undefined || this.radius == undefined) {
+  protected rerender() {
+    if (this.data == undefined) {
       return
     }
 
-    const radius = this.radius
+    this.x = this.stageWidth / 2
+    this.y = this.stageHeight / 2
+
+    const radius = min(this.stageWidth, this.stageHeight) / 2
     const { startAngle, endAngle, radiusRatios } = this.props
 
     this.removeChildren()
@@ -67,48 +61,5 @@ export default class Chart extends Container {
       pie.render(d)
       this.addChild(pie)
     })
-  }
-
-  private onAdded = () => {
-    this.on('stageresize', this.onStageResize)
-    this.on('mouseover', this.onMouseOver)
-  }
-
-  private onStageResize = ({
-    width,
-    height,
-  }: {
-    width: number
-    height: number
-  }) => {
-    this.x = width / 2
-    this.y = height / 2
-    this.radius = Math.min(width, height) / 2
-    this.rerender()
-  }
-
-  private onMouseOver = (e: interaction.InteractionEvent) => {
-    this.emit('tooltipstart', {
-      cursorX: e.data.global.x,
-      cursorY: e.data.global.y,
-    })
-    this.on('mousemove', this.onMouseMove)
-    this.on('mouseout', this.onMouseOut)
-  }
-
-  private onMouseMove = (e: interaction.InteractionEvent) => {
-    this.emit('tooltipmove', {
-      cursorX: e.data.global.x,
-      cursorY: e.data.global.y,
-    })
-  }
-
-  private onMouseOut = (e: interaction.InteractionEvent) => {
-    this.emit('tooltipend', {
-      cursorX: e.data.global.x,
-      cursorY: e.data.global.y,
-    })
-    this.off('mousemove', this.onMouseMove)
-    this.off('mouseout', this.onMouseOut)
   }
 }
