@@ -31,3 +31,8 @@ export const roundUp = (n: number): number => {
   }
   return 0
 }
+
+export const step = (n: number): number => {
+  const i = digits(n)
+  return pow(10, i - 2)
+}

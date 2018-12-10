@@ -1,8 +1,8 @@
-import { Graphics } from 'pixi.js'
+import { Graphics as Original } from 'pixi.js'
 
 const { atan2, cos, sin, sqrt } = Math
 
-export default class ExtGraphics extends Graphics {
+export default class Graphics extends Original {
   private dashGap: Array<number> = []
   private currentX: number = 0
   private currentY: number = 0
@@ -18,6 +18,11 @@ export default class ExtGraphics extends Graphics {
   }
 
   public moveTo(x: number, y: number) {
+    if (this.dashGap.length === 0) {
+      super.moveTo(x, y)
+      return this
+    }
+
     this.currentX = x
     this.currentY = y
     this.currentIndex = 0
@@ -26,6 +31,11 @@ export default class ExtGraphics extends Graphics {
   }
 
   public lineTo(x: number, y: number) {
+    if (this.dashGap.length === 0) {
+      super.lineTo(x, y)
+      return this
+    }
+
     let { currentX, currentY } = this
     const dx = x - currentX
     const dy = y - currentY

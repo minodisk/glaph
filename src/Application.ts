@@ -1,7 +1,10 @@
-import { Application as PIXIApplication } from 'pixi.js'
+import { Application as PIXIApplication, DisplayObject } from 'pixi.js'
+import LineChart from './line/Chart'
 import PieChart from './pie/Chart'
 import Tooltip from './tooltip/Tooltip'
 import { TooltipEvent } from './tooltip/TooltipEvent'
+
+export type Chart = LineChart | PieChart
 
 export default class Application extends PIXIApplication {
   public element: HTMLDivElement
@@ -9,7 +12,7 @@ export default class Application extends PIXIApplication {
   public stageWidth: number = 0
   public stageHeight: number = 0
   public obs: any
-  private chart?: PieChart
+  private chart?: Chart
   private tooltip?: Tooltip
 
   constructor({
@@ -43,14 +46,18 @@ export default class Application extends PIXIApplication {
     this.element.addEventListener('DOMNodeInsertedIntoDocument', this.onAppend)
   }
 
-  public setChart(chart: PieChart) {
+  public setChart(chart: Chart) {
     if (this.chart != undefined) {
       this.chart.removeAllListeners()
       this.stage.removeChild(this.chart)
     }
     this.chart = chart
     this.listenTooltipEvents()
-    this.stage.addChild(chart)
+    this.addChild(chart)
+  }
+
+  public addChild(obj: DisplayObject) {
+    this.stage.addChild(obj)
   }
 
   public setTooltip(tooltip: Tooltip) {

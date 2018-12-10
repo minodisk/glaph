@@ -1,6 +1,6 @@
 import { storiesOf } from '@storybook/html'
 import Application from '../Application'
-import Graphics from './ExtGraphics'
+import Graphics from './Graphics'
 
 const draw = (graphics: Graphics) => {
   graphics.moveTo(50, 50)
@@ -22,7 +22,7 @@ const draw = (graphics: Graphics) => {
   graphics.lineTo(700, 200)
 }
 
-storiesOf('graphics/ExtGraphics', module)
+storiesOf('graphics/Graphics', module)
   .add('dashStyle(1)', () => {
     const app = new Application({ width: 800, height: 600 })
     const graphics = new Graphics()
