@@ -34,5 +34,20 @@ export const roundUp = (n: number): number => {
 
 export const step = (n: number): number => {
   const i = digits(n)
-  return pow(10, i - 2)
+  return ((n / pow(10, i - 1)) >> 0) * pow(10, i - 2)
+}
+
+export const steps = (n: number): Array<number> => {
+  const upper = roundUp(n)
+  const interval = step(upper)
+  const arr = []
+  let i = 0
+  while (true) {
+    i += interval
+    arr.push(i)
+    if (i >= upper) {
+      break
+    }
+  }
+  return arr
 }
