@@ -18,6 +18,7 @@
         "./definitions/babel-plugin-require-context-hook__register"
       ]
     },
+    "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
