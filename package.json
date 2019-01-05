@@ -4,7 +4,7 @@
   "description": "Chart with WebGL",
   "main": "lib/glaph.js",
   "repository": "git@github.com:minodisk/glaph.git",
-  "author": "Daisuke Minot <daisuke.mino@gmail.com>",
+  "author": "Daisuke Mino <daisuke.mino@gmail.com>",
   "license": "Apache-2.0",
   "dependencies": {
     "pixi.js": "^4.8.2"
